@@ -3,14 +3,10 @@ import asyncio
 from bs4 import BeautifulSoup
 import pandas as pd
 
-# Define the base URL
 base_url = "https://results.biserawalpindi.edu.pk/Result_Detail?p={}&q=3&r=2022"
 
-# Define the range of values to increment
-start_value = 330001
-end_value = 333268
-# end_value = 372269  # Adjust as needed
-
+start_value = 300004
+end_value = 337268
 async def fetch_data(session, value):
     url = base_url.format(value)
     async with session.get(url) as response:
