@@ -1,42 +1,23 @@
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
-# Define the base URL
+
 base_url = "https://results.biserawalpindi.edu.pk/Result_Detail?p={}&q=10&r=2022"
-
-
-# Define the range of values to increment
-start_value = 800501
-
-end_value = 801000
-
+start_value = 800001
+end_value = 815975
 data = []
 for value in range(start_value, end_value + 1):
     url = base_url.format(value)
-
-    # Send a GET request to the URL
     r = requests.get(url)
-
-    # Check if the request was successful
     if r.status_code == 200:
         soup = BeautifulSoup(r.text, "lxml")
-
-        # Scraping code here (similar to what you provided)
         Rollno = soup.find(id="lblRollNumber")
-        # Rest of your scraping code goes here...
-
-        # Print or store the scraped data as needed
-        
-        
         Name=soup.find(id="lblName")
         n="Name:"
-       
         Studenttype=soup.find(id="lblNameStudentType")
         type="StudentType:"
-        
         Total=soup.find(id="lblTotal")
         t="Total:"
-        
         Status=soup.find(id="lblStatus")
         status="Status:"
         student_status="ABSENT"
@@ -45,9 +26,8 @@ for value in range(start_value, end_value + 1):
         student_status4="PASS"
         Form=soup.find(id="lblFormID")
         id="FormId:"
-       
         colon=":"
-       
+        
         subj1=soup.find(id="Repeater_result4_Label1_0")
         theory1=soup.find(id="Repeater_result4_Label2_0")
         theory2=soup.find(id="Repeater_result4_Label3_0")
@@ -90,10 +70,7 @@ for value in range(start_value, end_value + 1):
         theory14=soup.find(id="Repeater_result4_Label3_6")
         practical7=soup.find(id="Repeater_result4_Label5_6")
         marks7=soup.find(id="Repeater_result_Label3_6")
-        
-            
-                
-        # Inside your loop:
+    
         if(Status.text == student_status1 or Status.text==student_status4 ):
             data.append({
                 "Roll No": Rollno.text,
@@ -143,11 +120,10 @@ for value in range(start_value, end_value + 1):
                 "Form Id": Form.text
                  })
         print( Rollno.text)
-        # Print or store other scraped data...
-
+      
     else:
         print(f"Failed to retrieve data for value {value}.")
 df = pd.DataFrame(data)
-file_path = r"E:\BISE_Rawalpindi\student_data_supply11.xlsx"  
+file_path = r"E:\BISE_Rawalpindi\student_data_supply.xlsx"  
 
 df.to_excel(file_path, index=False)
